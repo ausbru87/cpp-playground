@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-using std:cout
-using std::vector
+using std:cout;
+using std::vector;
 
 int main() {
     vector<vector<int>> board =
