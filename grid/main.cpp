@@ -46,11 +46,6 @@ void PrintBoard(const vector<vector<int>> &b) {
 }
 
 int main() {
-    vector<vector<int>> board{{0, 1, 0, 0, 0, 0},
-                              {0, 1, 0, 0, 0, 0},
-                              {0, 1, 0, 0, 0, 0},
-                              {0, 1, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 1, 0}};
-    ReadBoardFile("1.board");
+    vector<vector<int>> board = ReadBoardFile("1.board");
     PrintBoard(board);
 }
