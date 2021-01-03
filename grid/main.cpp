@@ -1,7 +1,22 @@
 #include <iostream>
+#include <string>
 #include <vector>
+#include <fstream>
 using std::cout;
+using std::string;
 using std::vector;
+
+
+// TODO: Add the ReadBoardFile function here.
+void ReadBoardFile(string path) {
+  std::ifstream board_file(path);
+  if (board_file) {
+    string line;
+    while (getline(board_file, line)) {
+    	cout << line << "\n";
+    }
+  }
+}
 
 
 // TODO: Add PrintBoard function here.
