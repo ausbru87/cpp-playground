@@ -31,7 +31,7 @@ vector<vector<int>> ReadBoardFile(string path) {
         board.push_back(ParseLine(line));
     }
   }
-  return board
+  return board;
 }
 
 
