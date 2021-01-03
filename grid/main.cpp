@@ -2,10 +2,23 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
 using std::cout;
 using std::string;
 using std::vector;
+using std::istringstream;
 
+// TODO: Add the ParseLine function here.
+vector<int> ParseLine(string line) {
+    istringstream line_stream(line);
+    vector<int> v;
+    int n;
+    char c;
+    while (line_stream >> n >> c) {
+        v.push_back(n);
+    }
+    return v;
+}
 
 // TODO: Add the ReadBoardFile function here.
 void ReadBoardFile(string path) {
