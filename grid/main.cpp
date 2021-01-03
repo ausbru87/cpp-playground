@@ -21,14 +21,17 @@ vector<int> ParseLine(string line) {
 }
 
 // TODO: Add the ReadBoardFile function here.
-void ReadBoardFile(string path) {
+vector<vector<int>> ReadBoardFile(string path) {
   std::ifstream board_file(path);
+  // add empty board
+  vector<vector<int>> board;
   if (board_file) {
     string line;
     while (getline(board_file, line)) {
-    	cout << line << "\n";
+        board.push_back(ParseLine(line));
     }
   }
+  return board
 }
 
 
