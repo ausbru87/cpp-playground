@@ -35,5 +35,6 @@ int main() {
                               {0, 1, 0, 0, 0, 0},
                               {0, 1, 0, 0, 0, 0},
                               {0, 0, 0, 0, 1, 0}};
+    ReadBoardFile("1.board");
     PrintBoard(board);
 }
