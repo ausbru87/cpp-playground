@@ -41,6 +41,13 @@ vector<vector<State>> ReadBoardFile(std::string path) {
   return board;
 }
 
+// TODO: Write the Search function stub here.
+vector<vector<State>> Search(vector<vector<State>> board, int init[2], int goal[2]) {
+  vector<vector<State>> path{};
+  cout << "No path found!" << "\n";
+  return path;
+}
+
 std::string CellString(State cell) {
   switch(cell) {
     case State::kObstacle : return "⛰️   ";
@@ -72,6 +79,12 @@ void PrintBoard(const vector<vector<int>> &b) {
 */
 
 int main() {
-    auto board = ReadBoardFile("1.board");
-    PrintBoard(board);
+  // TODO: Declare "init" and "goal" arrays with values {0, 0} and {4, 5} respectively.
+  int init[2] = {0, 0};
+  int goal[2] = {4, 5};
+  auto board = ReadBoardFile("1.board");
+  // TODO: Call Search with "board", "init", and "goal". Store the results in the variable "solution".
+  vector<vector<State>> solution = Search(board, init, goal);
+  // TODO: Change the following line to pass "solution" to PrintBoard.
+  PrintBoard(solution);
 }
