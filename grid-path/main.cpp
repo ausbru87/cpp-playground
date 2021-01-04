@@ -7,7 +7,7 @@ using std::cout;
 using std::vector;
 
 // enumerate cell states
-enum class State {kEmpty, kObstacle};
+enum class State {kEmpty, kObstacle, kClosed};
 
 // TODO: Add the ParseLine function here.
 vector<State> ParseLine(std::string line) {
@@ -39,6 +39,11 @@ vector<vector<State>> ReadBoardFile(std::string path) {
     }
   }
   return board;
+}
+
+void AddToOpen(int x, int y, int g, int h, vector<vector<int>> &openlist, vector<vector<State>> &grid) {
+  openlist.push_back(vector<int>{x, y, g, h});
+  grid[x][y] = State::kClosed;
 }
 
 int Heuristic(int x1, int y1, int x2, int y2) {
