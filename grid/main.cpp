@@ -10,44 +10,68 @@ using std::vector;
 enum class State {kEmpty, kObstacle};
 
 // TODO: Add the ParseLine function here.
-vector<int> ParseLine(std::string line) {
+vector<State> ParseLine(std::string line) {
     std::istringstream line_stream(line);
-    vector<int> row;
+    vector<State> row;
     int n;
     char c;
-    while (line_stream >> n >> c) {
-        row.push_back(n);
+    while (line_stream >> n >> c && c == ',') {
+      if (n == 0) {
+        row.push_back(State::kEmpty);
+      } else {
+        row.push_back(State::kObstacle);
+      }
     }
     return row;
 }
 
 // TODO: Add the ReadBoardFile function here.
-vector<vector<int>> ReadBoardFile(std::string path) {
+vector<vector<State>> ReadBoardFile(std::string path) {
   std::ifstream board_file(path);
   // add empty board vector
-  vector<vector<int>> board;
+  vector<vector<State>> board{};
   if (board_file) {
     std::string line;
     while (getline(board_file, line)) {
         // load each line into 2D board vector
-        board.push_back(ParseLine(line));
+        vector<State> row = ParseLine(line);
+        board.push_back(row);
     }
   }
   return board;
 }
 
+std::string CellString(State cell) {
+  switch(cell) {
+    case State::kObstacle : return "⛰️   ";
+    default : return "0   ";
+  }
+}
+
 
 // TODO: Add PrintBoard function here.
-void PrintBoard(const vector<vector<int>> &b) {
-  for (const vector<int> &v: b) {
-    for (const int &i: v) {
-      cout << i;
+void PrintBoard(const vector<vector<State>> board) {
+  for (int i = 0; i < board.size(); i++) {
+    for (int j = 0; j < board[i].size(); j++) {
+      // TODO: Modify the line below to call CellString
+      // on each element of the board before streaming to cout.
+      cout << CellString(board[i][j]);
     }
     cout << "\n";
   }
 }
+/*
+void PrintBoard(const vector<vector<int>> &b) {
+  for (const vector<State> &v: b) {
+    for (const int &i: v) {
+      cout << CellString(i);
+    }
+    cout << "\n";
+  }
+}
+*/
 
 int main() {
-    vector<vector<int>> board = ReadBoardFile("1.board");
+    auto board = ReadBoardFile("1.board");
     PrintBoard(board);
 }
