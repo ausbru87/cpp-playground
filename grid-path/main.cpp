@@ -43,9 +43,10 @@ vector<vector<State>> ReadBoardFile(std::string path) {
 
 // TODO: Write the Search function stub here.
 vector<vector<State>> Search(vector<vector<State>> board, int init[2], int goal[2]) {
-  vector<vector<State>> path{};
+  
+  
   cout << "No path found!" << "\n";
-  return path;
+  return vector<vector<State>>{};
 }
 
 std::string CellString(State cell) {
