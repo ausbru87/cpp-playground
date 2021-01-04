@@ -4,13 +4,14 @@
 #include <fstream>
 #include <sstream>
 using std::cout;
-using std::string;
 using std::vector;
-using std::istringstream;
+
+// enumerate cell states
+enum class State {kEmpty, kObstacle};
 
 // TODO: Add the ParseLine function here.
-vector<int> ParseLine(string line) {
-    istringstream line_stream(line);
+vector<int> ParseLine(std::string line) {
+    std::istringstream line_stream(line);
     vector<int> v;
     int n;
     char c;
@@ -21,12 +22,12 @@ vector<int> ParseLine(string line) {
 }
 
 // TODO: Add the ReadBoardFile function here.
-vector<vector<int>> ReadBoardFile(string path) {
+vector<vector<int>> ReadBoardFile(std::string path) {
   std::ifstream board_file(path);
   // add empty board vector
   vector<vector<int>> board;
   if (board_file) {
-    string line;
+    std::string line;
     while (getline(board_file, line)) {
         // load each line into 2D board vector
         board.push_back(ParseLine(line));
