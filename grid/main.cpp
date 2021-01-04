@@ -12,13 +12,13 @@ enum class State {kEmpty, kObstacle};
 // TODO: Add the ParseLine function here.
 vector<int> ParseLine(std::string line) {
     std::istringstream line_stream(line);
-    vector<int> v;
+    vector<int> row;
     int n;
     char c;
     while (line_stream >> n >> c) {
-        v.push_back(n);
+        row.push_back(n);
     }
-    return v;
+    return row;
 }
 
 // TODO: Add the ReadBoardFile function here.
