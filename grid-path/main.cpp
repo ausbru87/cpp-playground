@@ -68,6 +68,15 @@ void CellSort(vector<vector<int>> *v) {
   std::sort(v->begin(), v->end(), Compare);
 }
 
+/**
+ * Verify the cell is empty and on the grid
+ */
+bool CheckValidCell(int x, int y, vector<vector<State>> &grid) {
+  if (x <= grid.size() && y <= grid[1].size()) {
+   return grid[x][y] == State::kEmpty; 
+  }
+}
+
 /** 
  * Implementation of A* search algorithm
  */
