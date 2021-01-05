@@ -50,6 +50,12 @@ int Heuristic(int x1, int y1, int x2, int y2) {
   return std::abs(x1 - x2) + std::abs(y1 - y2);
 }
 
+bool Compare(vector<int> node1, vector<int> node2) {
+  int f1 = node1[2] + node1[3];
+  int f2 = node2[2] + node2[3];
+  return f1 > f2;
+}
+
 // TODO: Write the Search function stub here.
 vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2]) {
   // Create the vector of open nodes.
