@@ -10,6 +10,9 @@ using std::vector;
 // enumerate cell states
 enum class State {kEmpty, kObstacle, kClosed, kPath};
 
+// directional deltas
+const int delta[4][2]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+
 vector<State> ParseLine(std::string line) {
     std::istringstream line_stream(line);
     vector<State> row;
@@ -77,6 +80,30 @@ bool CheckValidCell(int x, int y, vector<vector<State>> &grid) {
   }
 }
 
+void ExpandNeighbors(const vector<int> &current, int goal[2], vector<vector<int>> &openlist, vector<vector<State>> &grid) {
+  //current node data
+  int x = current[0];
+  int y = current[1];
+  int g = current[2];
+
+  // potential neighbors to current node
+  for (int i = 0; i < 4; i++) {
+    // Use deltas to find potential new neighbors
+    int x2 = x + delta[i][0];
+    int y2 = y + delta[i][1];
+
+    // check if neighbor is a valid cell
+    if (CheckValidCell(x2, y2, grid)) {
+      // increment g value
+      int g2 = g + 1;
+      // calculate new heuristic
+      int h2 = Heuristic(x2, y2, goal[0], goal[1]);
+      // add new neighbor to open vector
+      AddToOpen(x2, y2, g2, h2, openlist, grid);
+    }
+  }
+}
+
 /** 
  * Implementation of A* search algorithm
  */
@@ -106,6 +133,9 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
     if (x == goal[0] && y == goal[1]) {
       return grid;
     }
+
+    // If we're not done, expand search to current node's neighbors.
+    ExpandNeighbors(current, goal, open, grid);
   }
   
   cout << "No path found!" << "\n";
