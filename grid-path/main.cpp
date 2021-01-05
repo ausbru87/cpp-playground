@@ -13,7 +13,7 @@ using std::vector;
 using std::abs;
 
 // enumerate cell states
-enum class State {kEmpty, kObstacle, kClosed, kPath};
+enum class State {kEmpty, kObstacle, kClosed, kPath, kStart, kFinish};
 
 // directional deltas
 const int delta[4][2]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
@@ -144,6 +144,8 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
     int y = current[1];
     grid[x][y] = State::kPath;
     if (x == goal[0] && y == goal[1]) {
+      grid[x][y] = State::kFinish;
+      grid[init[0]][init[1]] = State::kStart;
       return grid;
     }
 
@@ -158,10 +160,12 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
 /**
  * Format the string/output 
 */
-std::string CellString(State cell) {
+string CellString(State cell) {
   switch(cell) {
     case State::kObstacle: return "⛰️   ";
     case State::kPath: return "🚗   ";
+    case State::kStart: return "🚦 ";
+    case State::kFinish: return "🏁 ";
     default: return "0   "; 
   }
 }
@@ -169,8 +173,6 @@ std::string CellString(State cell) {
 void PrintBoard(const vector<vector<State>> board) {
   for (int i = 0; i < board.size(); i++) {
     for (int j = 0; j < board[i].size(); j++) {
-      // TODO: Modify the line below to call CellString
-      // on each element of the board before streaming to cout.
       cout << CellString(board[i][j]);
     }
     cout << "\n";
