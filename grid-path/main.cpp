@@ -1,13 +1,14 @@
+#include <algorithm> // for sort
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <sstream>
 using std::cout;
 using std::vector;
 
 // enumerate cell states
-enum class State {kEmpty, kObstacle, kClosed};
+enum class State {kEmpty, kObstacle, kClosed, kPath};
 
 vector<State> ParseLine(std::string line) {
     std::istringstream line_stream(line);
@@ -64,7 +65,7 @@ bool Compare(vector<int> node1, vector<int> node2) {
  * Sort the two-dimensional vector of ints in descending order.
  */
 void CellSort(vector<vector<int>> *v) {
-  sort(v->begin(), v->end(), Compare);
+  std::sort(v->begin(), v->end(), Compare);
 }
 
 /** 
@@ -81,6 +82,22 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
   int h = Heuristic(x, y, goal[0], goal[1]);
   // Use AddToOpen to add the starting node to the open vector.
   AddToOpen(x, y, g, h, open, grid);
+
+  // while open vector is not empty
+  while (open.size() > 0) {
+    // Sort the open list using CellSort, and get the current node.
+    CellSort(&open);
+    // access last added, AddToOpen() adds to back
+    auto current = open.back();
+    // remove last element
+    open.pop_back();
+    int x = current[0];
+    int y = current[1];
+    grid[x][y] = State::kPath;
+    if (x == goal[0] && y == goal[1]) {
+      return grid;
+    }
+  }
   
   cout << "No path found!" << "\n";
   return vector<vector<State>>{};
@@ -88,11 +105,12 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
 
 /**
  * Format the string/output 
- */
+*/
 std::string CellString(State cell) {
   switch(cell) {
-    case State::kObstacle : return "⛰️   ";
-    default : return "0   ";
+    case State::kObstacle: return "⛰️   ";
+    case State::kPath: return "🚗   ";
+    default: return "0   "; 
   }
 }
 
