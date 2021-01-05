@@ -1,11 +1,16 @@
-#include <algorithm> // for sort
+#include <algorithm>  // for sort
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
 using std::cout;
+using std::ifstream;
+using std::istringstream;
+using std::sort;
+using std::string;
 using std::vector;
+using std::abs;
 
 // enumerate cell states
 enum class State {kEmpty, kObstacle, kClosed, kPath};
@@ -13,12 +18,12 @@ enum class State {kEmpty, kObstacle, kClosed, kPath};
 // directional deltas
 const int delta[4][2]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
-vector<State> ParseLine(std::string line) {
-    std::istringstream line_stream(line);
-    vector<State> row;
+vector<State> ParseLine(string line) {
+    istringstream sline(line);
     int n;
     char c;
-    while (line_stream >> n >> c && c == ',') {
+    vector<State> row;
+    while (sline >> n >> c && c == ',') {
       if (n == 0) {
         row.push_back(State::kEmpty);
       } else {
@@ -28,13 +33,13 @@ vector<State> ParseLine(std::string line) {
     return row;
 }
 
-vector<vector<State>> ReadBoardFile(std::string path) {
-  std::ifstream board_file(path);
+vector<vector<State>> ReadBoardFile(string path) {
+  ifstream bfile(path);
   // add empty board vector
   vector<vector<State>> board{};
-  if (board_file) {
-    std::string line;
-    while (getline(board_file, line)) {
+  if (bfile) {
+    string line;
+    while (getline(bfile, line)) {
         // load each line into 2D board vector
         vector<State> row = ParseLine(line);
         board.push_back(row);
@@ -52,13 +57,13 @@ void AddToOpen(int x, int y, int g, int h, vector<vector<int>> &openlist, vector
 }
 
 int Heuristic(int x1, int y1, int x2, int y2) {
-  return std::abs(x1 - x2) + std::abs(y1 - y2);
+  return abs(x1 - x2) + abs(y1 - y2);
 }
 
 /**
  * Compare the F values of two cells.
  */
-bool Compare(vector<int> node1, vector<int> node2) {
+bool Compare(const vector<int> node1, const vector<int> node2) {
   int f1 = node1[2] + node1[3];
   int f2 = node2[2] + node2[3];
   return f1 > f2;
@@ -68,16 +73,24 @@ bool Compare(vector<int> node1, vector<int> node2) {
  * Sort the two-dimensional vector of ints in descending order.
  */
 void CellSort(vector<vector<int>> *v) {
-  std::sort(v->begin(), v->end(), Compare);
+  sort(v->begin(), v->end(), Compare);
 }
 
 /**
  * Verify the cell is empty and on the grid
- */
+ 
 bool CheckValidCell(int x, int y, vector<vector<State>> &grid) {
   if (x <= grid.size() && y <= grid[1].size()) {
    return grid[x][y] == State::kEmpty; 
   }
+}
+*/
+bool CheckValidCell(int x, int y, vector<vector<State>> &grid) {
+  bool on_grid_x = (x >= 0 && x < grid.size());
+  bool on_grid_y = (y >= 0 && y < grid[0].size());
+  if (on_grid_x && on_grid_y)
+    return grid[x][y] == State::kEmpty;
+  return false;
 }
 
 void ExpandNeighbors(const vector<int> &current, int goal[2], vector<vector<int>> &openlist, vector<vector<State>> &grid) {
@@ -165,11 +178,9 @@ void PrintBoard(const vector<vector<State>> board) {
 }
 
 int main() {
-  // Declare "init" and "goal" arrays with values {0, 0} and {4, 5} respectively.
   int init[2]{0, 0};
   int goal[2]{4, 5};
   auto board = ReadBoardFile("1.board");
-  // Call Search with "board", "init", and "goal". Store the results in the variable "solution".
-  vector<vector<State>> solution = Search(board, init, goal);
+  auto solution = Search(board, init, goal);
   PrintBoard(solution);
 }
