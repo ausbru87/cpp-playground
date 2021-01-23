@@ -8,7 +8,6 @@ class Pyramid {
       float length_;
       float width_;
       float height_;
-      bool CheckValid(float dim);
     
     public:
       // constructor
@@ -71,13 +70,7 @@ float Pyramid::GetVolume() const {
 //}
 
 // private class members
-bool Pyramid::CheckValid(float dim) {
-    if (dim > 0) {
-        return true;
-    }else {
-        return false;
-    }
-}
+
 // Test
 int main() {
   Pyramid pyramid(4, 5, 6);
